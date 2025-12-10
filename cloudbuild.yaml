@@ -78,6 +78,7 @@ steps:
     path: /root/.ssh
 
 # This step generates the new manifest
+# I HAVE ADDED A LINE HERE TO FORCE REPLACE us-east4 WITH us-central1
 - name: 'gcr.io/cloud-builders/gcloud'
   id: Generate manifest
   entrypoint: /bin/sh
@@ -85,6 +86,7 @@ steps:
   - '-c'
   - |
      sed "s/GOOGLE_CLOUD_PROJECT/${PROJECT_ID}/g" kubernetes.yaml.tpl | \
+     sed "s/us-east4/us-central1/g" | \
      sed "s/COMMIT_SHA/${SHORT_SHA}/g" > hello-cloudbuild-env/kubernetes.yaml
   volumes:
   - name: ssh
